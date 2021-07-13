@@ -24,6 +24,6 @@ for id in H101 H102 H103 H551 H552 H553 R51 R52 R53 WT1 WT2 WT3 Y61 Y62 Y63
 do
   # Apply AdapterRemoval to remove adapter sequences and filter low quality reads
   AdapterRemoval --file1 ${reads}${id}/${id}_1.fq.gz --file2 ${reads}${id}/${id}_2.fq.gz \
-    --basename ${trimmed}${id} \
+    --basename ${trimmed}${id} --output1 ${trimmed}${id}_1_trimmed.fq --output2 ${trimmed}${id}_2_trimmed.fq \
     --trimns --trimqualities --minlength 120
 done

@@ -23,7 +23,7 @@ mkdir -p ${aln}
 for id in H101 H102 H103 H551 H552 H553 R51 R52 R53 WT1 WT2 WT3 Y61 Y62 Y63
 do
   # Apply HISAT2 to align trimmed and filtered reads to TAIR10 reference genome
-  hisat2 -1 ${reads}${id}.pair1.truncated -2 ${reads}${id}.pair2.truncated \
+  hisat2 -1 ${reads}${id}_1_trimmed.fq -2 ${reads}${id}_2_trimmed.fq \
     -x ${index} \
     -S ${aln}${id}.sam
 done

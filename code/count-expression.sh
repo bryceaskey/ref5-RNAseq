@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=count-expression                 # Job name
 #SBATCH --mail-type=END,FAIL                        # Mail events (NONE, BEGIN, END, FAIL, ALL)
-#SBATCH --mail-user=...@ufl.edu                     # Where to send mail	
+#SBATCH --mail-user=braskey@ufl.edu                 # Where to send mail	
 #SBATCH --account=jkim6                             # Group providing CPU and memory resources
 #SBATCH --qos=jkim6                                 # QOS to run job on (investment or burst)
 #SBATCH --ntasks=1                                  # Number of CPU cores to use
@@ -11,20 +11,20 @@
 
 pwd; hostname; date
 
-module load subread/2.0.0 samtools/1.10
+module load subread/2.0.0 samtools/1.12
 
 echo 'Counting mapped reads'
 
-aln=/ufrc/jkim6/...
-index=/ufrc/jkim6/...
-counts=/ufrc/jkim6/...
+aln=/blue/jkim6/share/braskey/data/ref5/HISAT2/
+index=/blue/jkim6/share/braskey/data/TAIR10/
+counts=/blue/jkim6/share/braskey/data/ref5/expr_counts/
 mkdir -p ${counts}
 mkdir -p ${counts}just-counts
 
-for id in ...
+for id in H101 H102 H103 H551 H552 H553 R51 R52 R53 WT1 WT2 WT3 Y61 Y62 Y63
 do
   # Use featureCounts to count reads which map to each gene
-  featureCounts -T 1 -t exon -g gene_id -s 2 \
+  featureCounts -t exon -g gene_id -p -s 0 -M -O --fraction \
     -a ${index}TAIR10.gff \
     -o ${counts}${id}-counts.txt \
     ${aln}${id}.sam
