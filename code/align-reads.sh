@@ -15,9 +15,9 @@ module load hisat2/2.2.1
 
 echo 'Aligning reads to TAIR10 reference genome'
 
-index=/blue/jkim6/share/braskey/TAIR10/HISAT2-index/TAIR10
+index=/blue/jkim6/share/braskey/data/TAIR10/HISAT2-index/TAIR10
 reads=/blue/jkim6/share/braskey/data/ref5/trimmed/
-aln=/ufrc/jkim6/share/braskey/data/ref5/HISAT2/
+aln=/blue/jkim6/share/braskey/data/ref5/HISAT2/
 mkdir -p ${aln}
 
 for id in H101 H102 H103 H551 H552 H553 R51 R52 R53 WT1 WT2 WT3 Y61 Y62 Y63
