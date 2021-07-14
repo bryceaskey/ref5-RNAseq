@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=call-variants        # Job name
 #SBATCH --mail-type=END,FAIL            # Mail events (NONE, BEGIN, END, FAIL, ALL)
-#SBATCH --mail-user=braskey@ufl.edu         # Where to send mail	
+#SBATCH --mail-user=braskey@ufl.edu     # Where to send mail	
 #SBATCH --account=jkim6                 # Group providing CPU and memory resources
 #SBATCH --qos=jkim6                     # QOS to run job on (investment or burst)
 #SBATCH --ntasks=1                      # Number of CPU cores to use
@@ -24,13 +24,13 @@ samtools faidx ${index}
 
 for grp in H10 H55 R5 WT Y6
 do
-    for rep in 1 2 3
+    #for rep in 1 2 3
     do
         samtools fixmate -O bam ${aln}${grp}${rep}.sam - | samtools sort - -O bam > ${aln}${grp}${rep}.bam
         samtools index ${aln}${grp}${rep}.bam
-        #rm ${aln}${grp}${rep}.sam
+        rm ${aln}${grp}${rep}.sam
     done
-    bcftools mpileup -Ob -Q 20 -f ${index} ${grp}1.bam,${grp}2.bam,${grp}3.bam > ${variants}${grp}_raw.bcf
+    bcftools mpileup -Ob -Q 20 -f ${index} ${aln}${grp}1.bam ${aln}${grp}2.bam ${aln}${grp}3.bam > ${variants}${grp}_raw.bcf
     bcftools call -m -Ov ${variants}${grp}_raw.bcf - | bcftools filter - -Ov -i '%QUAL>20' > ${variants}${grp}.vcf
     bcftools index ${variants}${grp}.vcf
     bcftools stats ${variants}${grp}.vcf
