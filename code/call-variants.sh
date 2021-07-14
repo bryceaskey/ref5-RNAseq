@@ -25,13 +25,13 @@ samtools faidx ${index}
 for grp in H10 H55 R5 WT Y6
 do
     #for rep in 1 2 3
-    do
-        samtools fixmate -O bam ${aln}${grp}${rep}.sam - | samtools sort - -O bam > ${aln}${grp}${rep}.bam
-        samtools index ${aln}${grp}${rep}.bam
-        rm ${aln}${grp}${rep}.sam
-    done
+    #do
+    #    samtools fixmate -O bam ${aln}${grp}${rep}.sam - | samtools sort - -O bam > ${aln}${grp}${rep}.bam
+    #    samtools index ${aln}${grp}${rep}.bam
+    #    rm ${aln}${grp}${rep}.sam
+    #done
     bcftools mpileup -Ob -Q 20 -f ${index} ${aln}${grp}1.bam ${aln}${grp}2.bam ${aln}${grp}3.bam > ${variants}${grp}_raw.bcf
-    bcftools call -m -Ov ${variants}${grp}_raw.bcf - | bcftools filter - -Ov -i '%QUAL>20' > ${variants}${grp}.vcf
+    bcftools call -m -Ov -v ${variants}${grp}_raw.bcf - | bcftools filter - -Ov -i '%QUAL>20' > ${variants}${grp}.vcf
     bcftools index ${variants}${grp}.vcf
     bcftools stats ${variants}${grp}.vcf
 done
